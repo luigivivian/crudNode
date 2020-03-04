@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
-
+const ValidationContract = require('../validators/base-validator');
 
 exports.get = (req, res, next) => {
     Product.find({}, 'title slug price active tags').then(data => {
@@ -43,6 +43,20 @@ exports.getById = (req, res, next) => {
 
 
 exports.post = (req, res, next) => {
+
+    // #mongodb possui as validações no model, nesse caso não seria necessario efetuar as validações
+    // porém ao se integrar com mysql ou outro banco validações são necessarias.
+
+    let validation = new ValidationContract();
+    validation.hasMinLen(req.body.title, 'O titulo precisa de no minimo 3 caracteres', 3);
+    validation.hasMinLen(req.body.slug, 'O titulo precisa de no minimo 3 caracteres', 3);
+    validation.hasMinLen(req.body.description, 'O titulo precisa de no minimo 3 caracteres', 3);
+
+    if(!validation.isValid()){
+        res.status(400).send(validation.errors()).end();
+    }
+
+
     //new product
     var product = new Product();
 
