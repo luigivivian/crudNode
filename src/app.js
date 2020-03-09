@@ -2,12 +2,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const config = require('./config');
 const app = express();
 const router = express.Router();
 
 //connect banco
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true}).then(() => {
+mongoose.connect(config.db, {useNewUrlParser: true}).then(() => {
     console.log('Database conection: TRUE: ');
 }).catch((err)=>{
     console.log('Erro ao conectar com mongodb: ' +err);

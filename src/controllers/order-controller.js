@@ -15,8 +15,8 @@ exports.post = async(req, res, next) => {
     } catch (error) {
         res.status(500).send({error: error});
     }
-
 }
+
 
 exports.get = async(req, res, next) => {
     try {
